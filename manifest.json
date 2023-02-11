@@ -1,0 +1,39 @@
+{
+  "name": "Getting Started Example",
+  "description": "Build an Extension!",
+  "version": "1.0",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+        "background.js"
+    ]
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "/icon.jpg",
+      "32": "/icon.jpg",
+      "48": "/icon.jpg",
+      "128": "/icon.jpg"
+    }
+  },
+  "icons": {
+    "16": "/icon.jpg",
+    "32": "/icon.jpg",
+    "48": "/icon.jpg",
+    "128": "/icon.jpg"
+  },
+  "options_page": "options.html",
+  "commands": {
+    "launch" : {
+        "suggested_key": {
+            "default": "Ctrl+K",
+            "mac": "Command+K",
+            "linux": "Ctrl+K"
+        },
+        "description": "Launch search bar",
+        "global": true
+    }
+}
+}
