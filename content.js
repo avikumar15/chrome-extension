@@ -7,7 +7,6 @@ console.log(isRedirectedByDiv);
 if (isRedirectedByDiv) {
     const newURL = removeParam("redirectedByDiv", document.location.href);
     window.history.pushState({}, '', newURL);
-
     chrome.runtime.sendMessage({ command: "displaySearchResult" });
 }
 
@@ -15,17 +14,28 @@ chrome.runtime.onMessage.addListener(receiver);
 function receiver(message, sender, sendResponse) {
     switch (message.command) {
         case "launch":
+            setBlurBody(3);
             launchSearchBar();
             break;
 
         case "displaySearchResult":
+            setBlurBody(3);
             displaySearchResult();
             break;
+        
 
         case "close":
+            setBlurBody(0);
             clearEverything();
             break;
     }
+}
+
+function setBlurBody(px) {
+    document.body.childNodes.forEach(function(item){
+        if(item!=undefined && item!=null && item.style!=undefined)
+            item.style.filter="blur("+px+"px)";
+    })
 }
 
 function clearEverything() {
@@ -33,9 +43,6 @@ function clearEverything() {
     var searchResultOuterDiv = document.getElementById("searchResultOuterDiv");
     searchBar?.parentNode?.removeChild(searchBar);
     searchResultOuterDiv?.parentNode?.removeChild(searchResultOuterDiv);
-    document.body.childNodes.forEach(function(item){
-        item.style.filter="blur(0)";
-    })
 }
 
 function styleSearchResultOuterBox(divSearchResultOuter) {
@@ -89,7 +96,7 @@ function styleSearchDiv(divSearch) {
     divSearch.style.zIndex = "150000";
     divSearch.style.top = "40%";
     divSearch.style.left = "35%";
-    divSearch.style.height = "20px";
+    divSearch.style.height = "25px";
     divSearch.style.margin = "auto";
     divSearch.style.position = "fixed";
     divSearch.style.backgroundColor = "#353b48";
@@ -119,10 +126,7 @@ function styleTextInputDiv(innerDivSearch) {
 
 function launchSearchBar() {
 
-    document.body.childNodes.forEach(function(item){
-        item.style.filter="blur(3px)";
-    })
-
+    console.log("Blur done");
     var divSearch = document.createElement("div");
     divSearch = styleSearchDiv(divSearch);
     var innerDivSearch = document.createElement("input");
